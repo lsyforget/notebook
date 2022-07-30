@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let p = {}
+        function setDetails(name, age) {
+            this.name = name
+            this.age = age
+            return console.log(this)
+        }
+        //实现call
+        Function.prototype.call2 = function (context) {
+            let mySymbol = Symbol()
+            context[mySymbol] = this
+            let args = Array.from(arguments).slice(1)
+            let result = context[mySymbol](...args)
+            delete context[mySymbol]
+            return result
+        }
+        // setDetails.call2(p,'lsy', 18)
+        //实现apply
+        Function.prototype.apply2 = function (context) {
+            let mySymbol = Symbol()
+            context[mySymbol] = this
+            let argsArr = Array.from(arguments)[1] || []
+            let result = context[mySymbol](...argsArr)
+            delete context[mySymbol]
+            return result
+        }
+        // setDetails.apply2(p,['lsy',18])
+        //实现bind
+        Function.prototype.bind2 = function (context) {
+            let mySymbol = Symbol()
+            context[mySymbol] = this
+            let args = Array.from(arguments).slice(1);
+            function fn() {
+                let bindArgs = Array.from(arguments)
+                return context[mySymbol].apply(this instanceof fn ? this /*作为构造函数调用*/ : context, args.concat(bindArgs))
+            }
+            fn.prototype = Object.create(this.prototype) //继承
+            return fn
+        }
+        let setDetails2 = setDetails.bind2(p, 'lsy')
+        setDetails2(18)
+    </script>
+</body>
+
+</html>
