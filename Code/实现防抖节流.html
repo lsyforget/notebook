@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="height: 2000px;"></div>
+    <script>
+        //防抖
+        function debounce(fn, time) {
+            let timer = null
+            return function() {
+                let args = arguments
+                let context = this
+                if(timer) {
+                    clearTimeout(timer)
+                    timer = null
+                }
+                timer = setTimeout(function(){
+                    fn.apply(context, args)
+                }, time);
+            }
+        }
+        function test (name) {
+            console.log(name)
+        }
+        //实现节流
+        function throttle(fn, time) {
+            let load = true
+            return function () {
+                if(load) {
+                    fn.apply(this,arguments)
+                    load = false
+                    setTimeout(function () {
+                        load = true
+                    },time)
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

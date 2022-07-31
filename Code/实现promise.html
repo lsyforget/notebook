@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let pendingSymbol = Symbol()
+        let fulfilledSymbol = Symbol()
+        let rejectedSymbol = Symbol()
+        class Promise2 {
+            constructor(executor) {
+                this.status = pendingSymbol
+                this.value = null
+                this.reason = null
+                this.onFulfilledCallbacks = [] //成功的回调队列
+                this.onRejectedCallbacks = [] //失败的回调队列
+                const resolve = (value) => {
+                    if (value instanceof this.constructor) {
+                        value.then(resolve, reject)
+                        return
+                    }
+                    if (this.status === pendingSymbol) {
+                        this.value = value
+                        this.status = fulfilledSymbol
+                        setTimeout(() => {
+                            this.onFulfilledCallbacks.forEach(callback => {
+                                callback(this.value)
+                            })
+                        })
+                    }
+                }
+                const reject = (reason) => {
+                    if (this.status === pendingSymbol) {
+                        this.reason = reason
+                        this.status = rejectedSymbol
+                        setTimeout(() => {
+                            this.onRejectedCallbacks.forEach(callback => {
+                                callback(this.value)
+                            })
+                        })
+                    }
+                }
+                try {
+                    executor(resolve, reject)
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                const promise2 = new this.constructor((resolve, reject) => {
+                    if (this.status === fulfilledSymbol) {
+
+                        setTimeout(() => {
+                            try {
+                                let callbackValue = onFulfilled(this.value)
+                                resolve(callbackValue)
+                            } catch (e) {
+                                reject(e)
+                            }
+                        });
+                    }
+                    if (this.status === rejectedSymbol) {
+                        setTimeout(() => {
+                            try {
+                                let callbackValue = onRejected(this.reason)
+                                resolve(callbackValue)
+                            } catch (e) {
+                                reject(e)
+                            }
+                        })
+                    }
+                    if (this.status === pendingSymbol) {
+                        this.onFulfilledCallbacks.push(() => {
+                            try {
+                                let callbackValue = onFulfilled(this.value);
+                                resolve(callbackValue);
+                            } catch (error) {
+                                reject(error)
+                            }
+                        })
+                        this.onRejectedCallbacks.push(() => {
+                            try {
+                                let callbackValue = onRejected(this.reason);
+                                resolve(callbackValue);
+                            } catch (error) {
+                                reject(error);
+                            }
+                        })
+                    }
+                })
+                return promise2
+            }
+        }
+        let p = new Promise2((resolve, reject) => {
+            setTimeout(() => {
+                resolve(1);
+            }, 1000)
+        })
+        p.then(val => {
+            throw new Error('error!')
+        }, reason => {
+
+        }).then(val => {
+            console.log(val);
+        }, reason => {
+            console.log(reason);
+            return '捕捉'
+        }).then(val => {
+            console.log(val);
+        })
+    </script>
+</body>
+
+</html>
