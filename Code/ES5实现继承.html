@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Person(name, hobbies) {
+            this.name = name
+            this.hobbies = hobbies
+            this.sayName = function () {
+                console.log(this.name)
+            }
+        }
+        Person.prototype.publicFn = function () {
+            console.log('父类原型对象上的方法')
+        }
+        let p1 = new Person('lsy', ['打篮球', '玩游戏'])
+        console.log(p1);
+        p1.sayName()
+        p1.publicFn()
+        /*
+        原型链继承
+          因为Child原型对象指向Person实例，所以当更改Person中的引用类型变量时会导致Child的实例上的引用类型变量统一改变，不具有唯一性
+        */
+        function Child1() { }
+        Child1.prototype = new Person()
+        let child1 = new Child1()
+        child1.sayName()
+        console.log(child1);
+        child1.publicFn()
+        /*
+        构造函数继承
+        无法获取原型链上的方法
+        */
+       function Child2(name,hobbies) {
+        Person.call(this,name,hobbies)
+       }
+       let child2 = new Child2('lsy2',['打篮球','玩游戏'])
+       console.log(child2);
+       //    child2.publicFn()
+       /*
+       组合式继承
+       每次创建子类实例都执行了两次构造函数
+       */
+      function Child3(name,hobbies) {
+        Person.call(this,name,hobbies)
+      }
+      Child3.prototype = new Person()
+      let child3 = new Child3('lsy3',['打篮球','玩游戏'])
+      console.log(child3);
+      /*
+      寄生组合式继承
+      */
+      function Child4 (name,hobbies) {
+        Person.call(this,name,hobbies)
+      }
+      function Fn() {}
+      Fn.prototype = new Person()
+      let fn = new Fn()
+      Child4.prototype = fn
+      let child4 = new Child4('lsy4',['打篮球','玩游戏'])
+      console.log(child4);
+    </script>
+</body>
+
+</html>

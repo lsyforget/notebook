@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (max-width: 750px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+        :root {
+  --side-bar-bg-color: #fafafa;
+  --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Open Sans Regular'),url('./github/400.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: normal;
+  src: local('Open Sans Italic'),url('./github/400i.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Open Sans Bold'),url('./github/700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: bold;
+  src: local('Open Sans Bold Italic'),url('./github/700i.woff') format('woff');
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: rgb(51, 51, 51);
+  line-height: 1.6;
+}
+
+#write {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 30px;
+  padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+  margin-top: 30px;
+}
+
+a {
+  color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  line-height: 1.4;
+  cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+  text-decoration: none;
+}
+h1 tt,
+h1 code {
+  font-size: inherit;
+}
+h2 tt,
+h2 code {
+  font-size: inherit;
+}
+h3 tt,
+h3 code {
+  font-size: inherit;
+}
+h4 tt,
+h4 code {
+  font-size: inherit;
+}
+h5 tt,
+h5 code {
+  font-size: inherit;
+}
+h6 tt,
+h6 code {
+  font-size: inherit;
+}
+h1 {
+  padding-bottom: .3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+h2 {
+ padding-bottom: .3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+h4 {
+  font-size: 1.25em;
+}
+h5 {
+  font-size: 1em;
+}
+h6 {
+ font-size: 1em;
+  color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+  margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+  margin: 0 0;
+}
+hr {
+  height: 2px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+
+li p.first {
+  display: inline-block;
+}
+ul,
+ol {
+  padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+  margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+  margin-bottom: 0;
+}
+blockquote {
+  border-left: 4px solid #dfe2e5;
+  padding: 0 15px;
+  color: #777777;
+}
+blockquote blockquote {
+  padding-right: 0;
+}
+table {
+  padding: 0;
+  word-break: initial;
+}
+table tr {
+  border-top: 1px solid #dfe2e5;
+  margin: 0;
+  padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+  background-color: #f8f8f8;
+}
+table tr th {
+  font-weight: bold;
+  border: 1px solid #dfe2e5;
+  border-bottom: 0;
+  margin: 0;
+  padding: 6px 13px;
+}
+table tr td {
+  border: 1px solid #dfe2e5;
+  margin: 0;
+  padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+  margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+  margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+  padding-left: 4px;
+}
+
+.code-tooltip {
+  box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+  border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+  border: 1px solid #e7eaed;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  padding: 0;
+  padding: 2px 4px 0px 4px;
+  font-size: 0.9em;
+}
+
+code {
+  background-color: #f3f4f4;
+  padding: 0 2px 0 2px;
+}
+
+.md-fences {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+margin-left: -1.3em;
+}
+
+@media print {
+  html {
+      font-size: 13px;
+  }
+  table,
+  pre {
+      page-break-inside: avoid;
+  }
+  pre {
+      word-wrap: break-word;
+  }
+}
+
+.md-fences {
+background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+padding: 1rem;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border: 0;
+  border-radius: 3px;
+  color: #777777;
+  margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+bottom: .375rem;
+}
+
+.md-mathjax-midline {
+  background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+left: -1.5625rem;
+top: .375rem;
+}
+#write>h4.md-focus:before{
+left: -1.5625rem;
+top: .285714286rem;
+}
+#write>h5.md-focus:before{
+left: -1.5625rem;
+top: .285714286rem;
+}
+#write>h6.md-focus:before{
+left: -1.5625rem;
+top: .285714286rem;
+}
+.md-image>.md-meta {
+  /*border: 1px solid #ddd;*/
+  border-radius: 3px;
+  padding: 2px 0px 0px 4px;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+.md-tag {
+  color: #a7a7a7;
+  opacity: 1;
+}
+
+.md-toc { 
+  margin-top:20px;
+  padding-bottom:20px;
+}
+
+.sidebar-tabs {
+  border-bottom: none;
+}
+
+#typora-quick-open {
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+  background-color: #FAFAFA;
+  border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+  border-style: solid;
+  border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+  border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+  font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+  visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+  background-color: #fafafa;
+  background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+  color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+  --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+  border: 0;
+}
+
+.dropdown-menu .divider {
+  border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+  background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+  color: white;
+  background: #999;
+}
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1 id="前端面试">前端面试</h1>
+<h2 id="vue部分">Vue部分</h2>
+<h3 id="vue双向数据绑定原理"><font color="red">vue双向数据绑定原理</font></h3>
+<p>实现vue的双向数据绑定，是采用数据劫持结合发布者和订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调</p>
+<h3 id="虚拟dom和diff算法"><font color="red">虚拟DOM和diff算法</font></h3>
+<p><strong>虚拟DOM</strong>：用JavaScript对象描述DOM的层次结构。DOM中的一切属性都在虚拟DOM中有对应的属性
+<strong>diff算法</strong>：</p>
+<ul>
+<li><p>diff是发生在虚拟DOM上的。</p>
+</li>
+<li><p>只有同一个虚拟节点，才进行diff。（选择器相同，key相同）</p>
+</li>
+<li><p>只进行同层比较，不进行跨层比较。</p>
+</li>
+</ul>
+<h3 id="选项式apivue2和组合式apivue3"><font color="red">选项式API(Vue2)和组合式API(Vue3)</font></h3>
+<p><img src="./upload/%E9%80%89%E9%A1%B9%E5%BC%8Fapi%E5%92%8C%E7%BB%84%E5%90%88%E5%BC%8Fapi.webp" alt="选项式api和组合式api"></p>
+<p>Vue2选项式API(option api) 优点：简单，各选项各司其职；缺点：不方便功能复用；功能代码分散维护代码横跳</p>
+<p>Vue3组合式API(composition api) 优点：功能代码组合维护, 不方便功能复用；</p>
+<h3 id="v-if和v-show"><font color="red">v-if和v-show</font></h3>
+<p><strong>当条件不成立时，v-if不会渲染dom元素，v-show只是操作css样式（display），且换当前dom显示和隐藏</strong>
+相同点：都是控制元素的显示和隐藏
+不同点：</p>
+<ul>
+<li>v-show：
+1.设置css属性中的display为none
+2.会编译，只是初始值为false，所以将display设置为none
+3.只编译一次，性能好一些
+4.适用于频繁切换某节点时，切换性能消耗小，但是初始性能消耗大</li>
+<li>v-if：
+1.dom树中添加或删除dom元素
+2.如果初始值为false时不会编译
+3.不停的创建和销毁，性能差一点
+4.初始渲染开销小，但是切换开销大</li>
+</ul>
+<p><strong>性能</strong>
+v-show只编译一次，后面其实就是控制css，而v-if不停的销毁和创建，故v-show性能更好一点。</p>
+<h2 id="js部分">JS部分</h2>
+<h3 id="闭包"><font color="red">闭包</font></h3>
+<p>可以在另一个作用域中调用一个函数的内部函数并访问到该函数的作用域中的成员</p>
+<p><strong>闭包的本质：</strong>函数在执行的时候会放到一个执行站上当函数执行完毕之后会从执行栈上一处，但是堆上的作用域成员因为被外部引用不能释放，因此内部函数依然可以访问外部函数的成员。</p>
+<h3 id="es5实现继承的方式"><font color="red">ES5实现继承的方式</font></h3>
+<pre><code class="language-javascript">function Person(name, hobbies) {
+    this.name = name
+    this.hobbies = hobbies
+    this.sayName = function () {
+        console.log(this.name)
+    }
+}
+Person.prototype.publicFn = function () {
+    console.log(&#39;父类原型对象上的方法&#39;)
+}
+let p1 = new Person(&#39;lsy&#39;, [&#39;打篮球&#39;, &#39;玩游戏&#39;])
+console.log(p1);
+p1.sayName()
+p1.publicFn()
+/*
+原型链继承
+    因为Child原型对象指向Person实例，所以当更改Person中的引用类型变量时会导致Child的实例上的引用类型变量统一改变，不具有唯一性
+*/
+function Child1() { }
+Child1.prototype = new Person()
+let child1 = new Child1()
+child1.sayName()
+console.log(child1);
+child1.publicFn()
+/*
+构造函数继承
+无法获取原型链上的方法
+*/
+function Child2(name,hobbies) {
+Person.call(this,name,hobbies)
+}
+let child2 = new Child2(&#39;lsy2&#39;,[&#39;打篮球&#39;,&#39;玩游戏&#39;])
+console.log(child2);
+//    child2.publicFn()
+/*
+组合式继承
+每次创建子类实例都执行了两次构造函数
+*/
+function Child3(name,hobbies) {
+Person.call(this,name,hobbies)
+}
+Child3.prototype = new Person()
+let child3 = new Child3(&#39;lsy3&#39;,[&#39;打篮球&#39;,&#39;玩游戏&#39;])
+console.log(child3);
+/*
+寄生组合式继承
+*/
+function Child4 (name,hobbies) {
+Person.call(this,name,hobbies)
+}
+function Fn() {}
+Fn.prototype = new Person()
+let fn = new Fn()
+Child4.prototype = fn
+let child4 = new Child4(&#39;lsy4&#39;,[&#39;打篮球&#39;,&#39;玩游戏&#39;])
+console.log(child4);
+</code></pre>
+<h3 id="this的指向"><font color="red">this的指向</font></h3>
+<p><strong>1.当函数作为构造函数，通过new xxx()调用时，this指向生成的实例</strong></p>
+<pre><code class="language-javascript">    function Cat(name,color){
+        　　　　this.name=name;
+        　　　　this.color=color;
+        　　}
+        let cat1 = new Cat(&quot;大毛&quot;,&quot;橘色&quot;);//this指向的cat1
+        let cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);//this指向的cat2
+        console.log(cat1); 
+        console.log(cat2); 
+</code></pre>
+<p><strong>2.当函数直接被调用时（通过 xxx()的方式调用）this指向window对象,严格模式下为undefined</strong></p>
+<pre><code class="language-javascript">    function Cat(name,color){
+        　　　　this.name=name;
+        　　　　this.color=color;
+        　　}
+       Cat(&quot;大毛&quot;,&quot;橘色&quot;);
+       console.log(window.name)//大毛
+       console.log(window.color)//橘色
+</code></pre>
+<p><strong>3.当函数被调用时，它是作为某个对象的方法（前面加了 点&#39;.&#39;）this指向这个对象（点&#39;.&#39;前面的对象）</strong>(谁调用它，它就指向谁)</p>
+<pre><code class="language-javascript">    function setDetails(name,color){
+            　　　　this.name=name;
+            　　　　this.color=color;
+            　　}
+    let cat={};
+    cat.setDetails=setDetails;
+    cat.setDetails(&#39;大毛&#39;,&#39;橘色&#39;);
+    console.log(cat.name)//大毛
+    console.log(cat.color)//橘色
+</code></pre>
+<h3 id="实现callapplybind"><font color="red">实现call/apply/bind</font></h3>
+<p><strong>1.实现call</strong></p>
+<pre><code class="language-javascript">let p = {}
+function setDetails(name, age) {
+    this.name = name
+    this.age = age
+    return console.log(this)
+}
+//实现call
+Function.prototype.call2 = function (context) {
+    let mySymbol = Symbol()
+    context[mySymbol] = this
+    let args = Array.from(arguments).slice(1)
+    let result = context[mySymbol](...args)
+    delete context[mySymbol]
+    return result
+}
+// setDetails.call2(p,&#39;lsy&#39;, 18)
+//实现apply
+Function.prototype.apply2 = function (context) {
+    let mySymbol = Symbol()
+    context[mySymbol] = this
+    let argsArr = Array.from(arguments)[1] || []
+    let result = context[mySymbol](...argsArr)
+    delete context[mySymbol]
+    return result
+}
+// setDetails.apply2(p,[&#39;lsy&#39;,18])
+//实现bind
+Function.prototype.bind2 = function (context) {
+    let mySymbol = Symbol()
+    context[mySymbol] = this
+    let args = Array.from(arguments).slice(1);
+    function fn() {
+        let bindArgs = Array.from(arguments)
+        return context[mySymbol].apply(this instanceof fn ? this /*作为构造函数调用*/ : context, args.concat(bindArgs))
+    }
+    fn.prototype = Object.create(this.prototype) //继承
+    return fn
+}
+</code></pre>
+<h3 id="原型链的理解"><font color="red">原型链的理解</font></h3>
+<p><img src="./upload/%E5%8E%9F%E5%9E%8B%E9%93%BE1.png" alt="">
+两者的constructor即为构造函数
+<img src="./upload/%E5%8E%9F%E5%9E%8B%E9%93%BE2.png" alt=""></p>
+<ul>
+<li>首先说好了的每一个实例都有__proto__，而这个就指向的是构造函数的对象原型，所以ldh.__proto__和Star.prototype是等价的，即ldh.proto`能够只会Star这个构造函数呢，本质上就是通过Star.prototype指回去的。</li>
+<li>那么我们就会想到Star.prototype的__proto__指向的会是谁呢，一打印就能看的出指向的是Object.prototype，所以不用想也知道他的构造函数肯定是Object了</li>
+<li>那Object.prototype还有没有__proto__，打印一看就知道是为null，所以我们知道原型的终点就是null</li>
+</ul>
+<h4 id="js的成员查找机制">js的成员查找机制</h4>
+<ul>
+<li>当访问一个对象的属性或者方法的时候，首先查找这个对象自身有没有这个属性</li>
+<li>如果没有就去找他的原型，也就是__proto__指向的prototype原型对象</li>
+<li>如果还没有就去查找原型对象的原型，即Object的原型对象</li>
+<li>以此类推一直找到null为止</li>
+</ul>
+<h3 id="事件冒泡，事件捕获，事件委托"><font color="red">事件冒泡，事件捕获，事件委托</font></h3>
+<h4 id="1事件冒泡event-bubbling">1.事件冒泡(event bubbling)</h4>
+<p>微软提出了名为事件冒泡的事件流。事件按照从最特定的事件目标到最不特定的事件目标(document对象)的顺序触发。可以想象把一颗石头投入水中，泡泡会一直从水底冒出水面。也就是说，事件会从最内层的元素开始发生，一直向上传播，直到document对象。</p>
+<h4 id="2事件捕获event-capturing">2.事件捕获(event capturing)</h4>
+<p>网景提出另一种事件流名为事件捕获。事件从最不精确的对象(document 对象)开始触发，然后到最精确(也可以在窗口级别捕获事件，不过必须由开发人员特别指定)，与事件冒泡相反，事件会从最外层开始发生，直到最具体的元素。同样形象的比喻一下可以想象成警察逮捕屋子内的小偷，就要从外面一层层的进入到房子内</p>
+<h4 id="3阻止事件冒泡">3.阻止事件冒泡</h4>
+<p>①e.stopPropagation()</p>
+<h4 id="4事件委托">4.事件委托</h4>
+<p>事件冒泡机制</p>
+<ul>
+<li>大量减少内存占用，减少事件注册。（原本需要对每个.li注册，现在只对上级元素注册）</li>
+<li>新增元素实现动态绑定事件。</li>
+</ul>
+<p><strong>实现方式：</strong>
+<strong>1.原生JS</strong></p>
+<pre><code class="language-javascript">// 给ul添加监听器
+document.getElementById(&quot;ul&quot;).addEventListener(&quot;click&quot;,function(e) {
+// e.target是被点击的元素!
+// 筛选触发事件的子元素如果是li执行的事件
+if(e.target &amp;&amp; e.target.nodeName.toLowerCase() == &quot;li&quot;) {
+// 获取到具体事件触发的li，输出其id
+console.log(&quot;List item &quot;,e.target.id.replace(&quot;post-&quot;),&quot; was clicked!&quot;);
+}
+});
+</code></pre>
+<p><strong>2.Jquery</strong></p>
+<pre><code class="language-javascript">$(&quot;#ul&quot;).on(&quot;click&quot;,&quot;li&quot;,function(){});
+</code></pre>
+<h3 id="实现new"><font color="red">实现new</font></h3>
+<p>创建一个空对象继承构造函数的原型对象，然后更改this的指向，指向这个空对象</p>
+<pre><code class="language-javascript">function newFactory(constructor,...args) {
+    let obj = Object.create(constructor.prototype)//obj.__proto__ = constructor.prototype
+    let result = constructor.apply(obj,[...args])
+    //当构造函数本身会返回一个非null的对象时，则通过`new`会返回这个对象，其他情况还是会返回新生成的对象
+    return result instanceof Object ? result : obj
+}
+</code></pre>
+<h3 id="防抖节流"><font color="red">防抖节流</font></h3>
+<pre><code class="language-javascript">//防抖
+function debounce(fn, time) {
+    let timer = null
+    return function() {
+        let args = arguments
+        let context = this
+        if(timer) {
+            clearTimeout(timer)
+            timer = null
+        }
+        timer = setTimeout(function(){
+            fn.apply(context, args)
+        }, time);
+    }
+}
+function test (name) {
+    console.log(name)
+}
+//实现节流
+function throttle(fn, time) {
+    let load = true
+    return function () {
+        if(load) {
+            fn.apply(this,arguments)
+            load = false
+            setTimeout(function () {
+                load = true
+            },time)
+        }
+    }
+}
+</code></pre>
+<h3 id="实现promise"><font color="red">实现promise</font></h3>
+<pre><code class="language-javascript">let pendingSymbol = Symbol()
+let fulfilledSymbol = Symbol()
+let rejectedSymbol = Symbol()
+class Promise2 {
+    constructor(executor) {
+        this.status = pendingSymbol
+        this.value = null
+        this.reason = null
+        this.onFulfilledCallbacks = [] //成功的回调队列
+        this.onRejectedCallbacks = [] //失败的回调队列
+        const resolve = (value) =&gt; {
+            if (value instanceof this.constructor) {
+                value.then(resolve, reject)
+                return
+            }
+            if (this.status === pendingSymbol) {
+                this.value = value
+                this.status = fulfilledSymbol
+                setTimeout(() =&gt; {
+                    this.onFulfilledCallbacks.forEach(callback =&gt; {
+                        callback(this.value)
+                    })
+                })
+            }
+        }
+        const reject = (reason) =&gt; {
+            if (this.status === pendingSymbol) {
+                this.reason = reason
+                this.status = rejectedSymbol
+                setTimeout(() =&gt; {
+                    this.onRejectedCallbacks.forEach(callback =&gt; {
+                        callback(this.value)
+                    })
+                })
+            }
+        }
+        try {
+            executor(resolve, reject)
+        } catch (error) {
+            reject(error)
+        }
+    }
+    then(onFulfilled, onRejected) {
+        const promise2 = new this.constructor((resolve, reject) =&gt; {
+            if (this.status === fulfilledSymbol) {
+
+                setTimeout(() =&gt; {
+                    try {
+                        let callbackValue = onFulfilled(this.value)
+                        resolve(callbackValue)
+                    } catch (e) {
+                        reject(e)
+                    }
+                });
+            }
+            if (this.status === rejectedSymbol) {
+                setTimeout(() =&gt; {
+                    try {
+                        let callbackValue = onRejected(this.reason)
+                        resolve(callbackValue)
+                    } catch (e) {
+                        reject(e)
+                    }
+                })
+            }
+            if (this.status === pendingSymbol) {
+                this.onFulfilledCallbacks.push(() =&gt; {
+                    try {
+                        let callbackValue = onFulfilled(this.value);
+                        resolve(callbackValue);
+                    } catch (error) {
+                        reject(error)
+                    }
+                })
+                this.onRejectedCallbacks.push(() =&gt; {
+                    try {
+                        let callbackValue = onRejected(this.reason);
+                        resolve(callbackValue);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            }
+        })
+        return promise2
+    }
+}
+</code></pre>
+<h3 id="宏任务，微任务"><font color="red">宏任务，微任务</font></h3>
+<p><strong>宏任务</strong>
+(macro)task，可以理解是每次执行栈执行的代码就是一个宏任务</p>
+<p>主线程上的执行栈中所有的代码块</p>
+<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>Ajax</li>
+<li>事件</li>
+</ul>
+<p><strong>微任务</strong>
+微任务（microtask）是宏任务中的一个部分，它的执行时机是在同步代码执行之后，下一个宏任务执行之前。微任务可以往任务队列中添加微任务，一次循环要执行完所以微任务。执行完微任务之后只取一个宏任务进行下一轮循环。</p>
+<p>总结起来，微任务有：</p>
+<ul>
+<li>Promise.then</li>
+<li>process.nextTick(Node.js 环境</li>
+</ul>
+<p>JS优先执行同步任务，然后执行微任务，最后执行宏任务。</p>
+
+    </div>
+</body>
+</html>

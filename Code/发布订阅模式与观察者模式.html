@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 发布/订阅模式由统一调度中心调用，因此发布者和订阅者不需要知道对方的存在
+    class EventEmitter {
+      constructor () {
+        // 事件中心
+        //因为不需要原型上的方法，通过Object.create(null)可以构造一个没有原型的对象，可提高性能
+        // { click: [fn1, fn2], change: [fn] }
+        this.subs = Object.create(null) 
+      }
+      $on (eventType, handler) {
+        this.subs[eventType] = this.subs[eventType] || []
+        this.subs[eventType].push(handler)
+      }
+      $emit (eventType) {
+        if(this.subs[eventType]) {
+          this.subs[eventType].forEach(handler => {
+            handler()
+          })
+        }
+      }
+    }
+    const vm = new EventEmitter()
+    vm.$on('click', () => {
+      console.log('click1')
+    })
+    vm.$on('click', () => {
+      console.log('click2')
+    })
+    vm.$emit('click')
+
+
+
+    // 观察者模式是由具体目标调度，比如当事件触发，Dep就会去调用观察者的方法，所以观察者模式的订阅者与发布者之间是存在依赖的
+    // 发布者 - 目标
+    class Dep {
+      constructor () {
+        // 记录所有的订阅者
+        this.subs = []
+      }
+      // 添加订阅者
+      addSub (sub) {
+        if(sub && sub.update) {
+          this.subs.push(sub)
+        }
+      }
+      // 发布通知
+      notify () {
+        this.subs.forEach(sub => {
+          sub.update()
+        })
+      }
+    }
+    // 订阅者 - 观察者
+    class Watcher {
+      update () {
+        console.log('update...')
+      }
+    }
+    const dep = new Dep()
+    const watcher1 = new Watcher()
+    const watcher2 = new Watcher()
+    dep.addSub(watcher1)
+    dep.addSub(watcher2)
+    dep.notify()
+  </script>
+</body>
+</html>
